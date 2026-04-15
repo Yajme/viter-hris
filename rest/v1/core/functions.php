@@ -1,6 +1,6 @@
 <?php
-require "./Database.php";
-require "./Response.php";
+require __DIR__ . "/Database.php";
+require __DIR__ . "/Response.php";
 
 function checkDbConnection($conn)
 {
@@ -48,14 +48,20 @@ function checkApiKey()
 
 function checkQuery($query, $msg)
 {
-    if (!$query) {
+    $hasErrorArray =
+        is_array($query) &&
+        array_key_exists("error", $query) &&
+        !empty($query["error"]);
+
+    if ($hasErrorArray) {
         $response = new Response();
         $error = [];
         $response->setSuccess(false);
         $error["count"] = 0;
         $error["success"] = false;
         $error["type"] = "invalid_request_error";
-        $error["error"] = $msg;
+        $error["error"] = $query["error_info"] ?? $msg;
+        $response->setStatusCode(500);
         $response->setData($error);
         $response->send();
         exit();

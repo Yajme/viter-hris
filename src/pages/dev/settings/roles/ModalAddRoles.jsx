@@ -18,13 +18,13 @@ const ModalAddRoles = ({ itemEdit }) => {
     mutationFn: (values) =>
       queryData(
         itemEdit
-          ? `${apiVersion}/controllers/dev/settings/roles/roles.php`
+          ? `${apiVersion}/controllers/dev/settings/roles/roles.php?id=${itemEdit.role_aid}`
           : `${apiVersion}/controllers/dev/settings/roles/roles.php`,
         itemEdit ? "PUT" : "POST",
         values,
       ),
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: "roles" });
+      queryClient.invalidateQueries({ queryKey: ["roles"] });
       if (data.success) {
         dispatch(setSuccess(true));
         dispatch(
@@ -41,8 +41,8 @@ const ModalAddRoles = ({ itemEdit }) => {
 
   const initVal = {
     ...itemEdit,
-    role_name: "",
-    role_description: "",
+    role_name: itemEdit ? itemEdit.role_name : "",
+    role_description: itemEdit ? itemEdit.role_description : "",
   };
 
   const yupSchema = Yup.object({
