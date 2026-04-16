@@ -1,6 +1,6 @@
-import { GetFocus, devNavUrl } from "@/components/helpers/functions-general";
-import { setIsAccountUpdated, setSuccess } from "@/store/StoreAction";
-import { StoreContext } from "@/store/StoreContext";
+import { GetFocus, devNavUrl } from "#functions/functions-general";
+import { setIsAccountUpdated, setSuccess } from "#store/StoreAction";
+import { StoreContext } from "#store/StoreContext";
 import React from "react";
 
 const ModalSuccess = () => {

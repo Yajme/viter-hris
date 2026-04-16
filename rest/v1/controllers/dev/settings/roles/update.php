@@ -10,7 +10,9 @@ if (array_key_exists("id", $_GET)) {
     $val->role_name = $data["role_name"];
     $val->role_description = $data["role_description"];
 
+    //Data validation
     checkId($val->role_aid);
+    compareName($val, $data["role_name_old"], $val->role_name);
     $query = checkUpdate($val);
     http_response_code(200); // OK
     returnSuccess($val, "Roles Update", $query);

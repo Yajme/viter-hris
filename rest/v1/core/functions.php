@@ -395,6 +395,7 @@ function checkExistence($count, $msg = "")
         $response->setSuccess(false);
         $error["error"] = $msg;
         $error["success"] = false;
+        $response->setStatusCode(403);
         $response->setData($error);
         $response->send();
         exit();

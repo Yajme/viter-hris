@@ -22,7 +22,15 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     exit();
 }
 if ($_SERVER["REQUEST_METHOD"] == "PUT") {
-    $result = require "update.php";
+    $result =
+        $_GET["action"] == "archive"
+            ? require "active.php"
+            : require "update.php";
+    sendResponse($result);
+    exit();
+}
+if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
+    $result = require "delete.php";
     sendResponse($result);
     exit();
 }

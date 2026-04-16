@@ -9,7 +9,8 @@ import ModalWrapperSide from "#partials/modals/ModalWrapperSide";
 import { FaTimes } from "react-icons/fa";
 import { Form, Formik } from "formik";
 import { InputText, InputTextArea } from "#components/form-inputs/FormInputs";
-import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
+import ButtonSpinner from "#partials/spinners/ButtonSpinner";
+import MessageError from "#partials/MessageError";
 const ModalAddRoles = ({ itemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
 
@@ -42,6 +43,7 @@ const ModalAddRoles = ({ itemEdit }) => {
   const initVal = {
     ...itemEdit,
     role_name: itemEdit ? itemEdit.role_name : "",
+    role_name_old: itemEdit ? itemEdit.role_name_old : "",
     role_description: itemEdit ? itemEdit.role_description : "",
   };
 
@@ -52,7 +54,9 @@ const ModalAddRoles = ({ itemEdit }) => {
   const handleClose = () => {
     dispatch(setIsAdd(false));
   };
-
+  React.useEffect(() => {
+    dispatch(setError(false));
+  }, []);
   return (
     <>
       <ModalWrapperSide
@@ -79,6 +83,7 @@ const ModalAddRoles = ({ itemEdit }) => {
             validationSchema={yupSchema}
             onSubmit={async (values, { setSubmitting, resetForm }) => {
               mutation.mutate(values);
+              dispatch(setError(false));
             }}
           >
             {(props) => {
@@ -102,6 +107,7 @@ const ModalAddRoles = ({ itemEdit }) => {
                           disabled={mutation.isPending}
                         />
                       </div>
+                      {store.error && <MessageError />}
                     </div>
                     <div className="modal-action">
                       <button

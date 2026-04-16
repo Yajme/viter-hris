@@ -60,6 +60,28 @@ class Roles
 
         return $query;
     }
+    public function checkName()
+    {
+        try {
+            $sql = "SELECT ";
+            $sql .= "role_name";
+            $sql .= " FROM {$this->tblSettingsRoles} ";
+            $sql .= " WHERE role_name = :role_name";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "role_name" => $this->role_name,
+            ]);
+        } catch (PDOException $ex) {
+            $query = [
+                "error" => true,
+                "error_info" => $ex->getMessage(),
+            ];
+        } catch (Exception $ex) {
+            returnError($ex);
+        }
+
+        return $query;
+    }
 
     public function update()
     {
@@ -73,6 +95,47 @@ class Roles
             $query->execute([
                 "role_name" => $this->role_name,
                 "role_description" => $this->role_description,
+                "role_aid" => $this->role_aid,
+            ]);
+        } catch (PDOException $ex) {
+            returnError($ex);
+            $query = [
+                "error" => true,
+                "error_info" => $ex->getMessage(),
+            ];
+        }
+
+        return $query;
+    }
+
+    public function delete()
+    {
+        try {
+            $sql = "DELETE FROM {$this->tblSettingsRoles} WHERE role_aid = :role_aid";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "role_aid" => $this->role_aid,
+            ]);
+        } catch (PDOException $ex) {
+            $query = [
+                "error" => true,
+                "error_info" => $ex->getMessage(),
+            ];
+        }
+
+        return $query;
+    }
+    public function active()
+    {
+        try {
+            $sql = "UPDATE {$this->tblSettingsRoles} SET ";
+            $sql .=
+                "role_is_active = :isActive, role_updated = CURRENT_TIMESTAMP ";
+            $sql .= "WHERE role_aid = :role_aid";
+
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "isActive" => $this->role_is_active,
                 "role_aid" => $this->role_aid,
             ]);
         } catch (PDOException $ex) {

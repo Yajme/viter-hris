@@ -1,12 +1,31 @@
-import { devNavUrl, urlDeveloper } from "../functions/functions-general";
-import Roles from "../pages/dev/settings/roles/Roles.jsx";
+import { devNavUrl, urlDeveloper } from "#functions/functions-general";
+import Roles from "#pages/dev/settings/roles/Roles";
+import Employees from "#pages/dev/employees/Employees";
+import Dashboard from "#pages/dev/dashboards/Dashboard";
+const BASE_URL = `${devNavUrl}/${urlDeveloper}`;
 export const routesDeveloper = [
   {
-    path: `${devNavUrl}/${urlDeveloper}/`,
+    path: `${BASE_URL}/`,
     element: <></>,
   },
   {
-    path: `${devNavUrl}/${urlDeveloper}/settings/users/role`,
+    path: `${BASE_URL}/dashboard`,
+    element: (
+      <>
+        <Dashboard />
+      </>
+    ),
+  },
+  {
+    path: `${BASE_URL}/employees`,
+    element: (
+      <>
+        <Employees />
+      </>
+    ),
+  },
+  {
+    path: `${BASE_URL}/settings/users/roles`,
     element: (
       <>
         <Roles />

@@ -6,7 +6,7 @@
   "imports": {
     "#store/*": "./src/store/*.jsx",
     "#routes/*": "./src/routes/*.jsx",
-    "#pages/*": "./src/routes/*.jsx",
+    "#pages/*": "./src/pages/*.jsx",
     "#partials/*": "./src/partials/*.jsx",
     "#functions/*": "./src/functions/*.jsx",
     "#components/*": "./src/components/*.jsx"
