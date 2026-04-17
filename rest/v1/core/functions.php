@@ -1,4 +1,6 @@
 <?php
+// use V1\Core\Database;
+// use V1\Core\Response;
 require __DIR__ . "/Database.php";
 require __DIR__ . "/Response.php";
 
@@ -195,9 +197,13 @@ function checkReadAll($object)
 // Read limit
 function checkReadLimit($object)
 {
-    $query = $object->readLimit();
-    checkQuery($query, "Empty records. (limit)");
-    return $query;
+    try{
+        $query = $object->readLimit();
+        checkQuery($query, "Empty records. (limit)");
+        return $query;
+    }catch(Exception $ex){
+        echo $ex;
+    }
 }
 
 // Read search

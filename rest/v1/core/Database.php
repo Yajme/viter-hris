@@ -1,4 +1,5 @@
 <?php
+// namespace V1\Core;
 
 class Database
 {

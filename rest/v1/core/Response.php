@@ -1,4 +1,5 @@
-<?php
+<?php 
+// namespace V1\Core;
 
 class Response
 {

@@ -4,10 +4,12 @@ import { FaPlus } from "react-icons/fa6";
 import { StoreContext } from "#store/StoreContext";
 import { setIsAdd } from "#store/StoreAction";
 import EmployeesList from "./EmployeesList";
+import ModalAddEmployees from "./ModalAddEmployees";
 export default function Employees() {
   const { store, dispatch } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
   const handleAdd = (item) => {
+    console.log("employees.jsx", item);
     dispatch(setIsAdd(true));
     setItemEdit(item);
   };
@@ -24,7 +26,7 @@ export default function Employees() {
             <button
               className="flex items-center gap-1 hover:underline"
               type="button"
-              onClick={handleAdd}
+              onClick={()=>handleAdd(null)}
             >
               <FaPlus className="text-primary" />
               Add
@@ -37,12 +39,12 @@ export default function Employees() {
         </div>
       </Layout>
 
-      {/* {store.isAdd && (
+      {store.isAdd && (
       <>
         {" "}
-        <ModalAddRoles itemEdit={itemEdit} />
+        <ModalAddEmployees itemEdit={itemEdit} />
       </>
-    )}*/}
+    )}
     </>
   );
 }

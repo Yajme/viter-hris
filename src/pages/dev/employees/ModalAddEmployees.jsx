@@ -11,7 +11,7 @@ import { Form, Formik } from "formik";
 import { InputText, InputTextArea } from "#components/form-inputs/FormInputs";
 import ButtonSpinner from "#partials/spinners/ButtonSpinner";
 import MessageError from "#partials/MessageError";
-const ModalAddRoles = ({ itemEdit }) => {
+const ModalAddEmployees = ({ itemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
 
   const queryClient = useQueryClient();
@@ -19,13 +19,13 @@ const ModalAddRoles = ({ itemEdit }) => {
     mutationFn: (values) =>
       queryData(
         itemEdit
-          ? `${apiVersion}/controllers/dev/settings/roles/roles.php?id=${itemEdit.role_aid}`
-          : `${apiVersion}/controllers/dev/settings/roles/roles.php`,
+          ? `${apiVersion}/controllers/dev/employees/employees.php?id=${itemEdit.employee_aid}`
+          : `${apiVersion}/controllers/dev/employees/employees.php`,
         itemEdit ? "PUT" : "POST",
         values,
       ),
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["roles"] });
+      queryClient.invalidateQueries({ queryKey: ["employees"] });
       if (data.success) {
         dispatch(setSuccess(true));
         dispatch(
@@ -42,13 +42,17 @@ const ModalAddRoles = ({ itemEdit }) => {
 
   const initVal = {
     ...itemEdit,
-    role_name: itemEdit ? itemEdit.role_name : "",
-    role_name_old: itemEdit ? itemEdit.role_name_old : "",
-    role_description: itemEdit ? itemEdit.role_description : "",
+    employee_first_name: itemEdit ? itemEdit.employee_first_name : "",
+    employee_middle_name: itemEdit ? itemEdit.employee_middle_name : "",
+    employee_last_name: itemEdit ? itemEdit.employee_last_name : "",
+    employee_name_old: itemEdit ? itemEdit.employee_first_name : "",
+    employee_description: itemEdit ? itemEdit.employee_description : "",
   };
 
   const yupSchema = Yup.object({
-    role_name: Yup.string().trim().required("Name is required"),
+    employee_first_name: Yup.string().trim().required("First Name is required"),
+    employee_middle_name: Yup.string().trim().required("Middle Name is required"),
+    employee_last_name: Yup.string().trim().required("Last Name is required"),
   });
 
   const handleClose = () => {
@@ -67,7 +71,7 @@ const ModalAddRoles = ({ itemEdit }) => {
         {/* Header*/}
         <div className="modal-header relative mb-4">
           <h3 className="text-dark text-sm">
-            {itemEdit ? "Update" : "Add"} Role
+            {itemEdit ? "Update" : "Add"} Employee 
           </h3>
           <button
             type="button"
@@ -94,16 +98,32 @@ const ModalAddRoles = ({ itemEdit }) => {
                     <div className="modal-container">
                       <div className="relative mb-6">
                         <InputText
-                          label="Name"
-                          name="role_name"
+                          label="First Name"
+                          name="employee_first_name"
                           type="text"
                           disabled={mutation.isPending}
                         />
                       </div>
                       <div className="relative mt-5 mb-6">
-                        <InputTextArea
-                          label="Description"
-                          name="role_description"
+                        <InputText
+                          label="Middle Name"
+                          name="employee_middle_name"
+                          type="text"
+                          disabled={mutation.isPending}
+                        />
+                      </div>
+                      <div className="relative mt-5 mb-6">
+                        <InputText
+                          label="Last Name"
+                          name="employee_last_name"
+                          type="text"
+                          disabled={mutation.isPending}
+                        />
+                      </div>
+                      <div className="relative mt-5 mb-6">
+                        <InputText
+                          label="Employee Email"
+                          name="employee_email"
                           type="text"
                           disabled={mutation.isPending}
                         />
@@ -144,4 +164,4 @@ const ModalAddRoles = ({ itemEdit }) => {
   );
 };
 
-export default ModalAddRoles;
+export default ModalAddEmployees;

@@ -6,13 +6,13 @@ $conn = checkDbConnection($conn);
 // make use of classes
 if (array_key_exists("id", $_GET)) {
     checkPayload($data);
-    $val = new Roles($conn);
-    $val->role_aid = $_GET["id"];
-    $val->role_is_active = $data["isActive"];
-    checkId($val->role_aid);
+    $val = new Employees($conn);
+    $val->employee_aid = $_GET["id"];
+    $val->employee_is_active = $data["isActive"];
+    checkId($val->employee_aid);
     $query = checkActive($val);
     http_response_code(200); // OK
-    returnSuccess($val, "Roles Archive", $query);
+    returnSuccess($val, "Employee Archive", $query);
 }
 
 checkEndpoint();
