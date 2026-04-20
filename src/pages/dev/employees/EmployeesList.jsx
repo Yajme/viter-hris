@@ -25,7 +25,7 @@ export default function EmployeesList({ itemEdit, setItemEdit }) {
   const [page, setPage] = React.useState(1);
   const [filterData, setFilterData] = React.useState('');
   const [onSearch, setOnSearch] = React.useState(false);
-  const [searchValue, setSearchValue] = React.useState("");
+  const [searchValue] = React.useState("");
   const { ref, inView } = useInView();
   const search = React.useRef({ value: "" });
   

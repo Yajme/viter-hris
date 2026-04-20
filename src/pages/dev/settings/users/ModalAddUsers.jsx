@@ -8,10 +8,10 @@ import { setError, setIsAdd, setMessage, setSuccess } from "#store/StoreAction";
 import ModalWrapperSide from "#partials/modals/ModalWrapperSide";
 import { FaTimes } from "react-icons/fa";
 import { Form, Formik } from "formik";
-import { InputText, InputTextArea } from "#components/form-inputs/FormInputs";
+import { InputSelect, InputText, InputTextArea } from "#components/form-inputs/FormInputs";
 import ButtonSpinner from "#partials/spinners/ButtonSpinner";
 import MessageError from "#partials/MessageError";
-const ModalAddEmployees = ({ itemEdit }) => {
+const ModalAddUsers = ({ itemEdit , activeRoles = []}) => {
   const { store, dispatch } = React.useContext(StoreContext);
 
   const queryClient = useQueryClient();
@@ -19,13 +19,13 @@ const ModalAddEmployees = ({ itemEdit }) => {
     mutationFn: (values) =>
       queryData(
         itemEdit
-          ? `${apiVersion}/controllers/dev/employees/employees.php?id=${itemEdit.employee_aid}`
-          : `${apiVersion}/controllers/dev/employees/employees.php`,
+          ? `${apiVersion}/controllers/dev/settings/users/users.php?id=${itemEdit.users_aid}`
+          : `${apiVersion}/controllers/dev/settings/users/users.php`,
         itemEdit ? "PUT" : "POST",
         values,
       ),
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["employee"] });
+      queryClient.invalidateQueries({ queryKey: ["users"] });
       if (data.success) {
         dispatch(setSuccess(true));
         dispatch(
@@ -42,17 +42,20 @@ const ModalAddEmployees = ({ itemEdit }) => {
 
   const initVal = {
     ...itemEdit,
-    employee_first_name: itemEdit ? itemEdit.employee_first_name : "",
-    employee_middle_name: itemEdit ? itemEdit.employee_middle_name : "",
-    employee_last_name: itemEdit ? itemEdit.employee_last_name : "",
-    employee_name_old: itemEdit ? itemEdit.employee_first_name : "",
-    employee_description: itemEdit ? itemEdit.employee_description : "",
+    users_first_name: itemEdit ? itemEdit.users_first_name : "",
+    users_last_name: itemEdit ? itemEdit.users_last_name : "",
+    users_email: itemEdit ? itemEdit.users_email : "",
+    users_role_id: itemEdit ? itemEdit.users_role_id : "",
+    users_password : itemEdit  ? itemEdit.users_password : "",
+    users_email_old: itemEdit ? itemEdit.users_email_old : "",
   };
 
   const yupSchema = Yup.object({
-    employee_first_name: Yup.string().trim().required("First Name is required"),
-    employee_middle_name: Yup.string().trim().required("Middle Name is required"),
-    employee_last_name: Yup.string().trim().required("Last Name is required"),
+    users_first_name: Yup.string().trim().required("First Name is required"),
+    users_last_name: Yup.string().trim().required("Last Name is required"),
+    users_email: Yup.string().trim().email("Invalid email").required("Email is required"),
+    // users_password: Yup.string().trim().required("Password is required"),
+    users_role_id: Yup.string().trim().required("Role is required"),
   });
 
   const handleClose = () => {
@@ -71,7 +74,7 @@ const ModalAddEmployees = ({ itemEdit }) => {
         {/* Header*/}
         <div className="modal-header relative mb-4">
           <h3 className="text-dark text-sm">
-            {itemEdit ? "Update" : "Add"} Employee 
+            {itemEdit ? "Update" : "Add"} User
           </h3>
           <button
             type="button"
@@ -99,15 +102,7 @@ const ModalAddEmployees = ({ itemEdit }) => {
                       <div className="relative mb-6">
                         <InputText
                           label="First Name"
-                          name="employee_first_name"
-                          type="text"
-                          disabled={mutation.isPending}
-                        />
-                      </div>
-                      <div className="relative mt-5 mb-6">
-                        <InputText
-                          label="Middle Name"
-                          name="employee_middle_name"
+                          name="users_first_name"
                           type="text"
                           disabled={mutation.isPending}
                         />
@@ -115,16 +110,40 @@ const ModalAddEmployees = ({ itemEdit }) => {
                       <div className="relative mt-5 mb-6">
                         <InputText
                           label="Last Name"
-                          name="employee_last_name"
+                          name="users_last_name"
                           type="text"
                           disabled={mutation.isPending}
                         />
                       </div>
                       <div className="relative mt-5 mb-6">
-                        <InputText
-                          label="Employee Email"
-                          name="employee_email"
+                        <InputSelect
+                          label="Role"
+                          name="users_role_id"
                           type="text"
+                          disabled={mutation.isPending}
+                        >
+                          <optgroup label="Select a role">
+                            <option value="" hidden> --- </option>
+                            {activeRoles.map((item,key) => {
+                              return <option key={key} value={item.role_aid}>{item.role_name}</option>;
+                           })}
+                          </optgroup>
+                          
+                        </InputSelect>
+                      </div>
+                      <div className="relative mt-5 mb-6">
+                        <InputText
+                          label="Email"
+                          name="users_email"
+                          type="email"
+                          disabled={mutation.isPending}
+                        />
+                      </div>
+                      <div className="relative mt-5 mb-6">
+                        <InputText
+                          label="Password"
+                          name="users_password"
+                          type="password"
                           disabled={mutation.isPending}
                         />
                       </div>
@@ -164,4 +183,4 @@ const ModalAddEmployees = ({ itemEdit }) => {
   );
 };
 
-export default ModalAddEmployees;
+export default ModalAddUsers;

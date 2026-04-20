@@ -17,7 +17,7 @@ function checkDbConnection($conn)
         $error["error"] = "Database connection failed";
 
         $response->setSuccess(false);
-        $response->setStatusCode();
+        $response->setStatusCode(502);
         $response->setData($error);
         $response->send();
     }
