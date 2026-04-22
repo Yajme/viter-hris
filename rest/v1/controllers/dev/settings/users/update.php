@@ -7,8 +7,9 @@ $conn = checkDbConnection($conn);
 if (array_key_exists("id", $_GET)) {
     $val = new Users($conn);
     $val->users_aid = $data["users_aid"];
-    $val->users_name = $data["users_name"];
-    $val->users_description = $data["users_description"];
+    $val->users_first_name = $data["users_first_name"];
+    $val->users_last_name = $data["users_last_name"];
+    $val->users_email = $data["users_email"];
 
     //Data validation
     checkId($val->users_aid);

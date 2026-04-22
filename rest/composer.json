@@ -1,11 +1,17 @@
 {
-  "autoload": {
-    "psr-4": {
-      "v1//": "v1/"
-    }, 
-    "files" : [
-      "v1/core/functions.php",
-      "v1/core/header.php"
-    ]
-  }
+    "name": "rest/api",
+    "autoload": {
+        "psr-4": {
+            "App\\Core\\": "v1/core/",
+            "App\\Models\\Dev\\Employees\\": "v1/models/developers/employees/",
+            "App\\Models\\Dev\\Memo\\":      "v1/models/developers/memo/",
+            "App\\Models\\Dev\\Settings\\Roles\\": "v1/models/developers/settings/roles/",
+            "App\\Models\\Dev\\Settings\\Users\\": "v1/models/developers/settings/users/"
+        },
+        "files" : [
+          "v1/core/functions.php",
+          "v1/core/header.php"
+        ]
+    }
+    
 }

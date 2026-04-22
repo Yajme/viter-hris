@@ -1,18 +1,10 @@
 <?php
-// require_once __DIR__ . '/../../../../vendor/autoload.php';
 require_once __DIR__ . '/../../../core/bootstrap.php';
 
-use App\Models\Dev\Employees\Employees;
+use App\Models\Dev\Memo\Memo;
 
-// set http header
-// require "../../../core/header.php";
-// // functions
-// require "../../../core/functions.php";
-//models
-// require "../../../models/developers/employees/Employees.php";
+//returnError($_SERVER["HTTP_AUTHORIZATION"]);
 
-// returnError($_SERVER["HTTP_AUTHORIZATION"]);
-if (isset($_SERVER["HTTP_AUTHORIZATION"])) {
     try {
         $body = file_get_contents("php://input");
         $data = json_decode($body, true);
@@ -21,13 +13,13 @@ if (isset($_SERVER["HTTP_AUTHORIZATION"])) {
         $conn = null;
         $conn = checkDbConnection($conn);
         // make use of classes
-        $val = new Employees($conn);
+        $val = new Memo($conn);
         if (array_key_exists("start", $_GET)) {
             checkPayload($data);
 
-            $val->start = $_GET["start"];
+            $val->start = (int)$_GET["start"];
             $val->total = 10;
-            $val->employee_is_active = $data["filterData"];// == "" ? "" : intval($data["filterData"]);
+            $val->memo_is_active = $data["filterData"];// == "" ? "" : intval($data["filterData"]);
             $val->search = $data["searchValue"];
 
             checkLimitId($val->start, $val->total);
@@ -40,5 +32,4 @@ if (isset($_SERVER["HTTP_AUTHORIZATION"])) {
     } catch (Exception $ex) {
         echo $ex;
     }
-}
-checkEndpoint();
+    checkEndpoint();

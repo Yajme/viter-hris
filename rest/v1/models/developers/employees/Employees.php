@@ -1,5 +1,5 @@
 <?php 
-// namespace V1\Models\Developers\Employees;
+namespace App\Models\Dev\Employees;
 
 class Employees
 {

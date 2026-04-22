@@ -6,5 +6,9 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'V1\\' => array($baseDir . '/v1'),
+    'App\\Models\\Dev\\Settings\\Users\\' => array($baseDir . '/v1/models/developers/settings/users'),
+    'App\\Models\\Dev\\Settings\\Roles\\' => array($baseDir . '/v1/models/developers/settings/roles'),
+    'App\\Models\\Dev\\Memo\\' => array($baseDir . '/v1/models/developers/memo'),
+    'App\\Models\\Dev\\Employees\\' => array($baseDir . '/v1/models/developers/employees'),
+    'App\\Core\\' => array($baseDir . '/v1/core'),
 );

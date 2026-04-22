@@ -7,21 +7,41 @@ namespace Composer\Autoload;
 class ComposerStaticInit9c7bfaf27387a4cdc33d696ec87860a5
 {
     public static $files = array (
-        '78d9c7f564ccd1757ba2dc3ca4c76b71' => __DIR__ . '/../..' . '/v1/core/functions.php',
-        '1544a82b30c567673d148880e75e4939' => __DIR__ . '/../..' . '/v1/core/header.php',
+        '5c0040e0c74a5f74726c0ecbff826fd7' => __DIR__ . '/../..' . '/v1/core/functions.php',
+        '99df10428d02c3e2139e88c7a4fced88' => __DIR__ . '/../..' . '/v1/core/header.php',
     );
 
     public static $prefixLengthsPsr4 = array (
-        'V' =>
+        'A' =>
         array (
-            'V1\\' => 3,
+            'App\\Models\\Dev\\Settings\\Users\\' => 30,
+            'App\\Models\\Dev\\Settings\\Roles\\' => 30,
+            'App\\Models\\Dev\\Memo\\' => 20,
+            'App\\Models\\Dev\\Employees\\' => 25,
+            'App\\Core\\' => 9,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'V1\\' =>
+        'App\\Models\\Dev\\Settings\\Users\\' =>
         array (
-            0 => __DIR__ . '/../..' . '/v1',
+            0 => __DIR__ . '/../..' . '/v1/models/developers/settings/users',
+        ),
+        'App\\Models\\Dev\\Settings\\Roles\\' =>
+        array (
+            0 => __DIR__ . '/../..' . '/v1/models/developers/settings/roles',
+        ),
+        'App\\Models\\Dev\\Memo\\' =>
+        array (
+            0 => __DIR__ . '/../..' . '/v1/models/developers/memo',
+        ),
+        'App\\Models\\Dev\\Employees\\' =>
+        array (
+            0 => __DIR__ . '/../..' . '/v1/models/developers/employees',
+        ),
+        'App\\Core\\' =>
+        array (
+            0 => __DIR__ . '/../..' . '/v1/core',
         ),
     );
 
