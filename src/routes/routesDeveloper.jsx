@@ -5,58 +5,67 @@ import Dashboard from "#pages/dev/dashboards/Dashboard";
 import Users from "#pages/dev/settings/users/Users";
 import Memo from "#pages/dev/memo/Memo";
 import Department from "#pages/dev/settings/department/Department";
+import Notifications from "#pages/dev/settings/notifications/Notifications";
 const BASE_URL = `${devNavUrl}/${urlDeveloper}`;
 export const routesDeveloper = [
-    {
-        path: `${BASE_URL}/`,
-        element: <></>,
-    },
-    {
-        path: `${BASE_URL}/dashboard`,
-        element: (
-            <>
-                <Dashboard />
-            </>
-        ),
-    },
-    {
-        path: `${BASE_URL}/employees`,
-        element: (
-            <>
-                <Employees />
-            </>
-        ),
-    },
-    {
-        path: `${BASE_URL}/settings/roles`,
-        element: (
-            <>
-                <Roles />
-            </>
-        ),
-    },
-    {
-        path: `${BASE_URL}/settings/users`,
-        element: (
-            <>
-                <Users />
-            </>
-        ),
-    },
-    {
-        path: `${BASE_URL}/settings/department`,
-        element: (
-            <>
-                <Department />
-            </>
-        ),
-    },
-    {
-        path: `${BASE_URL}/memo`,
-        element: (
-            <>
-                <Memo />
-            </>
-        ),
-    },
+  {
+    path: `${BASE_URL}/`,
+    element: <></>,
+  },
+  {
+    path: `${BASE_URL}/dashboard`,
+    element: (
+      <>
+        <Dashboard />
+      </>
+    ),
+  },
+  {
+    path: `${BASE_URL}/employees`,
+    element: (
+      <>
+        <Employees />
+      </>
+    ),
+  },
+  {
+    path: `${BASE_URL}/settings/roles`,
+    element: (
+      <>
+        <Roles />
+      </>
+    ),
+  },
+  {
+    path: `${BASE_URL}/settings/users`,
+    element: (
+      <>
+        <Users />
+      </>
+    ),
+  },
+  {
+    path: `${BASE_URL}/settings/department`,
+    element: (
+      <>
+        <Department />
+      </>
+    ),
+  },
+  {
+    path: `${BASE_URL}/settings/Notifications`,
+    element: (
+      <>
+        <Notifications />
+      </>
+    ),
+  },
+  {
+    path: `${BASE_URL}/memo`,
+    element: (
+      <>
+        <Memo />
+      </>
+    ),
+  },
 ];
