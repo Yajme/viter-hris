@@ -1,9 +1,6 @@
 <?php
+ require_once __DIR__ . '/../../../../core/bootstrap.php';
 
-   require_once __DIR__ . '/../../../core/bootstrap.php';
-
-   $body = file_get_contents("php://input");
-   $data = json_decode($body, true);
 
    dispatchResource([
        'POST' => __DIR__ . '/create.php',

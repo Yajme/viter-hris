@@ -8,8 +8,10 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Models\\Dev\\Settings\\Users\\' => array($baseDir . '/v1/models/developers/settings/users'),
     'App\\Models\\Dev\\Settings\\Roles\\' => array($baseDir . '/v1/models/developers/settings/roles'),
+    'App\\Models\\Dev\\Settings\\Notifications\\' => array($baseDir . '/v1/models/developers/settings/notifications'),
     'App\\Models\\Dev\\Settings\\Department\\' => array($baseDir . '/v1/models/developers/settings/department'),
     'App\\Models\\Dev\\Memo\\' => array($baseDir . '/v1/models/developers/memo'),
     'App\\Models\\Dev\\Employees\\' => array($baseDir . '/v1/models/developers/employees'),
+    'App\\Models\\Dev\\Base\\' => array($baseDir . '/v1/models/developers/base'),
     'App\\Core\\' => array($baseDir . '/v1/core'),
 );

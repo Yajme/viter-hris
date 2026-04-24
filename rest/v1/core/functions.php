@@ -23,6 +23,9 @@ function checkDbConnection($conn)
     }
 }
  function dispatchResource(array $map) {
+     $body = file_get_contents("php://input");
+     $data = json_decode($body, true);
+
        $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
        $action = $_GET['action'] ?? null;
 

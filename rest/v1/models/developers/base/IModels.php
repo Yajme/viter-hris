@@ -1,4 +1,6 @@
 <?php
+namespace App\Models\Dev\Base;
+
 interface IModels {
   public function create();
   public function readAll();
