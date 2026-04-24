@@ -1,5 +1,5 @@
 <?php
-
+use App\Models\Dev\Employees\Employees;
 // check database connection
 $conn = null;
 $conn = checkDbConnection($conn);

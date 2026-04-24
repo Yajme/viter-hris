@@ -1,17 +1,17 @@
 <?php
-use App\Models\Dev\Employees\Employees;
+use App\Models\Dev\Settings\Department\Department;
 // check database connection
 $conn = null;
 $conn = checkDbConnection($conn);
 // make use of classes
 if (array_key_exists("id", $_GET)) {
-    $val = new Employees($conn);
-    $val->employee_aid = $_GET["id"];
+    $val = new Department($conn);
+    $val->department_aid = $_GET["id"];
 
-    checkId($val->employee_aid);
+    checkId($val->department_aid);
     $query = checkDelete($val);
     http_response_code(200); // OK
-    returnSuccess($val, "Employees Delete", $query);
+    returnSuccess($val, "Department Delete", $query);
 }
 
 checkEndpoint();

@@ -1,5 +1,5 @@
 <?php
-
+use App\Models\Dev\Employees\Employees;
 // check database connection
 $conn = null;
 $conn = checkDbConnection($conn);
@@ -11,6 +11,7 @@ if (array_key_exists("id", $_GET)) {
     $val->employee_middle_name = trim($data["employee_middle_name"]);
     $val->employee_last_name = trim($data["employee_last_name"]);
     $val->employee_email = $data["employee_email"];
+    $val->employee_department_id = $data["employee_department_id"];
 
     //Data validation
     checkId($val->employee_aid);

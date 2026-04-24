@@ -1,8 +1,9 @@
 <?php
-require_once __DIR__ . '/../../../core/bootstrap.php';
+require_once __DIR__ . '/../../../../core/bootstrap.php';
+use App\Models\Dev\Settings\Department\Department;
 
-use App\Models\Dev\Employees\Employees;
-if (isset($_SERVER["HTTP_AUTHORIZATION"])) {
+//returnError($_SERVER["HTTP_AUTHORIZATION"]);
+
     try {
         $body = file_get_contents("php://input");
         $data = json_decode($body, true);
@@ -11,13 +12,13 @@ if (isset($_SERVER["HTTP_AUTHORIZATION"])) {
         $conn = null;
         $conn = checkDbConnection($conn);
         // make use of classes
-        $val = new Employees($conn);
+        $val = new Department($conn);
         if (array_key_exists("start", $_GET)) {
             checkPayload($data);
 
-            $val->start = $_GET["start"];
+            $val->start = (int)$_GET["start"];
             $val->total = 10;
-            $val->employee_is_active = $data["filterData"];// == "" ? "" : intval($data["filterData"]);
+            $val->department_is_active = $data["filterData"];// == "" ? "" : intval($data["filterData"]);
             $val->search = $data["searchValue"];
 
             checkLimitId($val->start, $val->total);
@@ -30,5 +31,4 @@ if (isset($_SERVER["HTTP_AUTHORIZATION"])) {
     } catch (Exception $ex) {
         echo $ex;
     }
-}
-checkEndpoint();
+    checkEndpoint();

@@ -116,6 +116,7 @@ export default function EmployeesList({ itemEdit, setItemEdit }) {
             <tr>
               <th>#</th>
               <th>Status</th>
+              <th>Department</th>
               <th>Employee Name</th>
               <th>Email</th>
               <th></th>
@@ -147,7 +148,8 @@ export default function EmployeesList({ itemEdit, setItemEdit }) {
                             return (
                               <tr key={key}>
                                 <td>{counter++}</td>
-                                <td><Status text={item.employee_is_active == 1 ? "active" : "inactive"}/></td>
+                                    <td><Status text={item.employee_is_active == 1 ? "active" : "inactive"} /></td>
+                                    <td>{item.department_name}</td>
                                 <td>{item.employee_first_name} {item.employee_middle_name[0]}. {item.employee_last_name}</td>
                                 <td>{item.employee_email}</td>
                                 <td>

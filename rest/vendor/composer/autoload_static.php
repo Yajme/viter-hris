@@ -16,6 +16,7 @@ class ComposerStaticInit9c7bfaf27387a4cdc33d696ec87860a5
         array (
             'App\\Models\\Dev\\Settings\\Users\\' => 30,
             'App\\Models\\Dev\\Settings\\Roles\\' => 30,
+            'App\\Models\\Dev\\Settings\\Department\\' => 35,
             'App\\Models\\Dev\\Memo\\' => 20,
             'App\\Models\\Dev\\Employees\\' => 25,
             'App\\Core\\' => 9,
@@ -30,6 +31,10 @@ class ComposerStaticInit9c7bfaf27387a4cdc33d696ec87860a5
         'App\\Models\\Dev\\Settings\\Roles\\' =>
         array (
             0 => __DIR__ . '/../..' . '/v1/models/developers/settings/roles',
+        ),
+        'App\\Models\\Dev\\Settings\\Department\\' =>
+        array (
+            0 => __DIR__ . '/../..' . '/v1/models/developers/settings/department',
         ),
         'App\\Models\\Dev\\Memo\\' =>
         array (

@@ -22,7 +22,19 @@ function checkDbConnection($conn)
         $response->send();
     }
 }
+ function dispatchResource(array $map) {
+       $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+       $action = $_GET['action'] ?? null;
 
+       $key = $method === 'PUT' && $action === 'archive' ? 'PUT:archive' : $method;
+       if (!isset($map[$key])) {
+           checkEndpoint();
+       }
+
+       $result = require $map[$key];
+       sendResponse($result);
+       exit();
+   }
 function checkApiKey()
 {
     // validate apikey

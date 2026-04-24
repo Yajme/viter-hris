@@ -1,6 +1,6 @@
 
 <?php
-
+use App\Models\Dev\Employees\Employees;
 try
 {
     // check database connection
@@ -13,7 +13,8 @@ try
     $val->employee_middle_name = trim($data["employee_middle_name"]);
     $val->employee_last_name = trim($data["employee_last_name"]);
     $val->employee_email = $data["employee_email"];
-    
+    $val->employee_department_id = $data["employee_department_id"];
+
     isNameExist($val, $val->employee_first_name);
     $query = checkCreate($val);
     http_response_code(201); // CREATED
