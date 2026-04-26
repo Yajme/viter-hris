@@ -92,7 +92,8 @@ const ModalAddNotifications = ({ itemEdit }) => {
         {/* Body*/}
         <div className="modal-body">
           <Formik
-            initialValues={initVal}
+            initialValues={{...initVal, notification_purpose: itemEdit?.notification_purpose?.trim().toLowerCase() ?? "",
+}}
             validationSchema={yupSchema}
             onSubmit={async (values, { setSubmitting, resetForm }) => {
               mutation.mutate(values);
