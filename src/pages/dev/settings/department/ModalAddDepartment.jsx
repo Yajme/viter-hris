@@ -45,7 +45,7 @@ const ModalAddDepartment = ({ itemEdit }) => {
     const initVal = {
         ...itemEdit,
         department_name: itemEdit ? itemEdit.department_name : "",
-        department_name_old: itemEdit ? itemEdit.department_name_old : "",
+        department_name_old: itemEdit ? itemEdit.department_name : "",
     };
 
     const yupSchema = Yup.object({

@@ -9,6 +9,8 @@ class Employees
     public $employee_middle_name;
     public $employee_last_name;
     public $employee_email;
+    public $employee_start_work_date;
+    public $employee_birthday;
     public $employee_department_id;
     public $employee_created;
     public $employee_updated;
@@ -16,6 +18,7 @@ class Employees
     public $start;
     public $total;
     public $search;
+    public $filter;
 
     public $connection;
     public $lastInsertedId;
@@ -35,9 +38,9 @@ class Employees
         try {
             $sql = "INSERT INTO {$this->tblEmployees} ";
             $sql .=
-                " (employee_is_active, employee_first_name,employee_middle_name,employee_last_name, employee_email, employee_department_id) ";
+                " (employee_is_active, employee_first_name,employee_middle_name,employee_last_name, employee_email, employee_birthday, employee_start_work_date, employee_department_id) ";
             $sql .=
-                " VALUES (:employee_is_active,:employee_first_name, :employee_middle_name,:employee_last_name,:employee_email, :employee_department_id);";
+                " VALUES (:employee_is_active,:employee_first_name, :employee_middle_name,:employee_last_name,:employee_email,:employee_birthday, :employee_start_work_date , :employee_department_id);";
 
             $query = $this->connection->prepare($sql);
             $query->execute([
@@ -46,6 +49,8 @@ class Employees
                 "employee_middle_name" => $this->employee_middle_name,
                 "employee_last_name" => $this->employee_last_name,
                 "employee_email" => $this->employee_email,
+                "employee_birthday" => $this->employee_birthday,
+                "employee_start_work_date" => $this->employee_start_work_date,
                 "employee_department_id" => $this->employee_department_id,
             ]);
             $this->lastInsertedId = $this->connection->lastInsertId();
@@ -165,7 +170,10 @@ class Employees
                 employee_middle_name = :employee_middle_name,
                 employee_last_name = :employee_last_name,
                 employee_email = :employee_email,
+                employee_birthday = :employee_birthday,
+                employee_start_work_date = :employee_start_work_date,
                 employee_department_id = :employee_department_id
+
                 ";
             $sql .= "WHERE employee_aid = :employee_aid";
 
@@ -175,6 +183,8 @@ class Employees
                 "employee_middle_name" => $this->employee_middle_name,
                 "employee_last_name" => $this->employee_last_name,
                 "employee_email" => $this->employee_email,
+                "employee_birthday" => $this->employee_birthday,
+                "employee_start_work_date" => $this->employee_start_work_date,
                 "employee_department_id" => $this->employee_department_id,
                 "employee_aid" => $this->employee_aid,
             ]);
@@ -221,6 +231,29 @@ class Employees
             ]);
         } catch (PDOException $ex) {
             returnError($ex);
+            $query = [
+                "error" => true,
+                "error_info" => $ex->getMessage(),
+            ];
+        }
+
+        return $query;
+    }
+
+    public function readFilter() {
+        try{
+            $sql = "SELECT * FROM view_employee_department WHERE TRUE ";
+            $sql .= ($this->filter === "department_aid")
+                ? " AND department_aid = :department_id"
+                : " AND MONTH(`{$this->filter}`) = MONTH(CURRENT_DATE())";
+            $query = $this->connection->prepare($sql);
+            $query->execute(
+                $this->filter === "department_aid"
+                    ? ["department_id" => $this->employee_department_id]
+                    : []
+            );
+
+        }catch(PDOException $ex){
             $query = [
                 "error" => true,
                 "error_info" => $ex->getMessage(),

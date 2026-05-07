@@ -1,5 +1,5 @@
 <?php
-namespace V1\Models\Dev\Settings\Roles;
+namespace App\Models\Dev\Settings\Roles;
 
 class Roles
 {

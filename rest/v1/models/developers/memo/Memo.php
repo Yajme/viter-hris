@@ -26,6 +26,7 @@ class Memo
     {
         $this->connection = $db;
         $this->tblMemo = "memo";
+        $this->search = "";
     }
 
     public function create()

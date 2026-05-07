@@ -12,6 +12,8 @@ if (array_key_exists("id", $_GET)) {
     $val->employee_last_name = trim($data["employee_last_name"]);
     $val->employee_email = $data["employee_email"];
     $val->employee_department_id = $data["employee_department_id"];
+    $val->employee_start_work_date = $data["employee_start_work_date"];
+    $val->employee_birthday = $data["employee_birthday"];
 
     //Data validation
     checkId($val->employee_aid);

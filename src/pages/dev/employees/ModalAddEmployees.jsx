@@ -53,6 +53,10 @@ const ModalAddEmployees = ({ itemEdit, activeDepartment }) => {
         employee_last_name: itemEdit ? itemEdit.employee_last_name : "",
         employee_name_old: itemEdit ? itemEdit.employee_first_name : "",
         employee_description: itemEdit ? itemEdit.employee_description : "",
+        employee_birthday: itemEdit ? itemEdit.employee_birthday : "",
+        employee_start_work_date: itemEdit
+            ? itemEdit.employee_start_work_date
+            : "",
         employee_department_id: itemEdit ? itemEdit.employee_department_id : "",
     };
 
@@ -150,6 +154,26 @@ const ModalAddEmployees = ({ itemEdit, activeDepartment }) => {
                                                     label="Employee Email"
                                                     name="employee_email"
                                                     type="text"
+                                                    disabled={
+                                                        mutation.isPending
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="relative mt-5 mb-6">
+                                                <InputText
+                                                    label="Employee Birthday"
+                                                    name="employee_birthday"
+                                                    type="date"
+                                                    disabled={
+                                                        mutation.isPending
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="relative mt-5 mb-6">
+                                                <InputText
+                                                    label="Employee Start Date"
+                                                    name="employee_start_work_date"
+                                                    type="date"
                                                     disabled={
                                                         mutation.isPending
                                                     }
