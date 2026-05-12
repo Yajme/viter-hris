@@ -2,6 +2,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { routesDeveloper } from "./routes/routesDeveloper";
 import { StoreProvider } from "./store/StoreContext";
+import { routesAccess } from "#routes/routesAccess";
+import PageNotFound from "#partials/PageNotFound";
+import { routesAdmin } from "#routes/routesAdmin";
 function App() {
   const queryClient = new QueryClient();
 
@@ -11,11 +14,18 @@ function App() {
         <StoreProvider>
           <Router>
             <Routes>
-              <Route path="*" element=<>Page not found</> />
+              <Route path="*" element=<PageNotFound/> />
+
+              {routesAdmin.map(({ ...routesProps }, key) => {
+                return <Route key={key} {...routesProps} />;
+              })}
               {routesDeveloper.map(({ ...routesProps }, key) => {
                 return <Route key={key} {...routesProps} />;
               })}
-            </Routes>
+              {routesAccess.map(({ ...routesProps }, key) => {
+                return <Route key={key} {...routesProps} />;
+              })}
+            </Routes> 
           </Router>
         </StoreProvider>
       </QueryClientProvider>

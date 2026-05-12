@@ -1,11 +1,7 @@
 <?php
-//set http header
-require "../../../../core/header.php";
-// functions
-require "../../../../core/functions.php";
+require_once __DIR__ . '/../../../../core/bootstrap.php';
 //models
-require "../../../../models/developers/settings/users/Users.php";
-
+use App\Models\Dev\Settings\Users\Users;
 //returnError($_SERVER["HTTP_AUTHORIZATION"]);
 
     try {

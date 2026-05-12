@@ -2,8 +2,19 @@ import React from "react";
 import { FaIndent } from "react-icons/fa";
 import { MdOutlineLogout, MdOutlineMailOutline } from "react-icons/md";
 import { devNavUrl, urlDeveloper } from "../functions/functions-general";
+import { StoreContext } from "../store/StoreContext";
+import {
+  setIsAccountUpdated,
+  setIsLogout,
+  setMessage,
+  setSuccess,
+} from "../store/StoreAction";
+import FetchingSpinner from "./spinners/FetchingSpinner";
+import TableSpinner from "./spinners/TableSpinner";
+import ScreenSpinner from "./spinners/ScreenSpinner";
 
 const Header = () => {
+  const { store, dispatch } = React.useContext(StoreContext);
   const [loading, setLoading] = React.useState(false);
   const [show, setShow] = React.useState(false);
   const isMobileOrTablet = window.matchMedia("(max-width:1027px)").matches;
@@ -13,15 +24,23 @@ const Header = () => {
   const link = `${devNavUrl}/${urlDeveloper}`;
   let menuRef = React.useRef();
 
-  //   const roleIsDeveloper = "r_is_developer";
-  const roleIsDeveloper = true;
-  const firstName = roleIsDeveloper ? "John" : "James";
-  const lastName = roleIsDeveloper ? "Doe" : "Gun";
-  const email = roleIsDeveloper ? "john@gmail.com" : "gun@gmail.com";
-  const nickName = "JD";
+  // const roleIsDeveloper = store.credentials.data.role_code == "r_is_developer";
+  const firstName = store.credentials.data.users_first_name;
+  const lastName = store.credentials.data.users_last_name;
+  const email = store.credentials.data.users_email;
+  const nickName = store.credentials.data.nickname;
   const handleShowNavigation = () => {};
+
+  const handleLogout = () => {
+    dispatch(setIsAccountUpdated(true));
+    dispatch(setSuccess(true));
+    dispatch(setMessage("Successfully logout"));
+  };
+
   return (
     <>
+      {store.isAccountUpdated && <ScreenSpinner />}
+
       <div className="print:hidden fixed z-[52] bg-white w-full flex justify-between items-center h-16 border-solid border-b-2 border-primary px-2">
         <div className="flex items-center lg:w-full lg:justify-normal relative z-10">
           <div className="group-hover:opacity-20 flex items-center lg:justify-start lg:min-h-[44px] lg:min-w-[170px] max-h-[44px] max-w-[170px] m-0.5">
@@ -37,7 +56,7 @@ const Header = () => {
               />
             </button>
             <div className="pl-1">
-              <img src="" alt="" />
+              <img src="asd" alt="" />
             </div>
           </div>
         </div>
@@ -45,7 +64,7 @@ const Header = () => {
         <div className="header__avatar pr-0 lg:pr-1" ref={ref}>
           <div
             className="flex items-center pr-2 px-1 gap-2 xl:py-2 lg:pl-4 group cursor-pointer"
-            // onClick={handleShow}
+            onClick={() => setShow(!show)}
           >
             <div
               className={`p-[1px] duration-[50ms] ease-out border-2 border-transparent hover:border-2 hover:border-primary hover:border-opacity-50 rounded-full ${
@@ -71,21 +90,11 @@ const Header = () => {
                   {firstName} {lastName}
                 </li>
 
-                <li className="mb-0 pb-2 capitalize text-xs">Developer</li>
-
+                <li className="mb-0 pb-2 capitalize text-xs">{store.credentials.data.role_name}</li>
                 <li className="pb-2 flex items-center gap-2 text-xs">
                   <MdOutlineMailOutline />
                   {email}
                 </li>
-                {/* {store.credentials.data.role_code !== "r_is_donor" && (
-                  <li className="flex items-center gap-2 hover:text-primary">
-                    <MdOutlineAccountCircle />
-                    <Link to={${link}/account} className="w-full">
-                      Account
-                    </Link>
-                  </li>
-                )} */}
-
                 <button
                   onClick={() => handleLogout()}
                   className="hover:text-primary flex items-center gap-2 pt-2 w-full"

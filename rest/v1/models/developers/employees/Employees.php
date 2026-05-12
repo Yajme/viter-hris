@@ -1,7 +1,9 @@
 <?php
 namespace App\Models\Dev\Employees;
 
-class Employees
+use App\Models\Dev\Base\BaseModel;
+
+class Employees extends BaseModel
 {
     public $employee_aid;
     public $employee_is_active;
@@ -12,8 +14,7 @@ class Employees
     public $employee_start_work_date;
     public $employee_birthday;
     public $employee_department_id;
-    public $employee_created;
-    public $employee_updated;
+    
 
     public $start;
     public $total;

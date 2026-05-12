@@ -15,5 +15,8 @@
       "v1/core/functions.php",
       "v1/core/header.php"
     ]
+  },
+  "require": {
+    "vlucas/phpdotenv": "^5.6"
   }
 }

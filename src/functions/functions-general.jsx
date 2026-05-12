@@ -1,3 +1,4 @@
+import { StoreContext } from "#store/StoreContext";
 import React from "react";
 export const devNavUrl = "";
 export const urlPath = `http://${window.location.hostname}/react-vite/viter-hris`;
@@ -8,7 +9,16 @@ export const setTimezone = "Asia/Manila";
 
 // ROLES
 export const urlDeveloper = "developer";
-
+export const urlAdmin = "admin";
+export const currentUserRole = () => { 
+    const { store, dispatch } = React.useContext(StoreContext);
+    const credentials = store.credentials;
+    console.log(credentials);
+    if (credentials) {
+        return credentials.data.data.role_name;
+    }
+    return null;
+}
 //dev API key
 export const devKey = "123devkey";
 
@@ -67,3 +77,15 @@ export const GetFocus = (id) => {
         obj.focus();
     }, []);
 };
+// get the url id parameter
+export const getUrlParam = (id) => {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  // const param = urlParams.get(id);
+  // return param;
+  return urlParams;
+};
+
+export const setStorageRoute = (jwt)=>{
+    localStorage.setItem('hristoken',JSON.stringify({token: jwt}))
+}

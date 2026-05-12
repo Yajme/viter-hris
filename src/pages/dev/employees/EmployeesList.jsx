@@ -118,6 +118,7 @@ export default function EmployeesList({ itemEdit, setItemEdit }) {
               <th>Status</th>
               <th>Department</th>
               <th>Employee Name</th>
+              <th>Role</th>
               <th>Email</th>
               <th></th>
             </tr>
@@ -152,6 +153,7 @@ export default function EmployeesList({ itemEdit, setItemEdit }) {
                                     <td>{item.department_name}</td>
                                 <td>{item.employee_first_name} {item.employee_middle_name[0]}. {item.employee_last_name}</td>
                                 <td>{item.employee_email}</td>
+                                <td>{item.employee_role}</td>
                                 <td>
                                   <div className="flex items-center gap-3">
                                     {item.employee_is_active == 1 ? (

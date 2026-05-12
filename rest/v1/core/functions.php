@@ -3,7 +3,9 @@
 // use V1\Core\Response;
 require __DIR__ . "/Database.php";
 require __DIR__ . "/Response.php";
+require_once __DIR__ . "/../lib/jwt/vendor/autoload.php";
 
+use \Firebase\JWT\JWT;
 function checkDbConnection($conn)
 {
     try {
@@ -133,6 +135,117 @@ function checkId($id)
     }
 }
 
+function checkLogin($object) {
+    $response = new Response();
+    $query = $object->readLogin();
+    if (!($query instanceof PDOStatement) || $query->rowCount() == 0) {
+        $response->setSuccess(false);
+        $error= [];
+        $error['count'] = 0;
+        $error['success'] = false;
+        $error['error'] = 'Invalid email or password';
+        $error['error_type'] = 'invalid_account';
+
+        $response->setData($error);
+        $response->send();
+        exit;
+
+    }
+
+    return $query;
+}
+
+function tokenUser($object,$token,$key)
+{
+    $response = new Response();
+    $returnData = [];
+    //If token exist then validate
+    if(empty($token)) returnHandleError('No Token Found', 'Invalid Credentials');
+
+    try{
+        $decoded = JWT::decode($token,$key,['HS256']);
+        $object->users_email = $decoded->data->email;
+        $result = checkLogin($object);
+        $row = $result->fetch(PDO::FETCH_ASSOC);
+        if(!isset($decoded->data->data)) throw new Error('Invalid Account');
+        if(!isset($row)) throw new Error('invalid Account');
+        $databasePassword = $row['users_password'];
+        $tokenPassword = $decoded->data->data->users_password;
+        $isUserKeyMatched = true;
+
+        if($databasePassword != $tokenPassword) throw new Error('Invalid Account');
+        http_response_code(200);
+
+        $returnData['data'] = [
+        ...(array)$row,
+        ...[
+        'role' => strtolower($decoded->data->data->role_name),
+        'user_is_key_matched' => $isUserKeyMatched = true,
+        'nickname' => strtolower($decoded->data->nickname),
+        'server_date' => date('Y-m-d H:i:s')
+        
+        
+        ]
+        ];
+
+        $returnData['count'] = $result->rowCount();
+        $returnData['success'] = true;
+        $returnData['message'] = 'Access Granted';
+        $returnData['server_datetime'] = date('Y-m-d H:i:s');
+        $response->setData($returnData);
+
+        $response->send();
+        exit;
+
+    }catch(Throwable $ex){
+        returnHandleError('Error','Login Error', $ex->getMessage());
+    }
+}
+function loginAccess($password, $hash_password, $email, $row, $result, $key)
+{
+    $response = new Response();
+    $error = [];
+    $returnData = [];
+
+    if (!password_verify($password, $hash_password)) {
+        $response->setSuccess(false);
+        $error["count"] = 0;
+        $error["success"] = false;
+        $error["error"] = "Invalid email or password";
+        $error["error_type"] = "invalid_account";
+        $response->setData($error);
+        $response->send();
+        exit();
+    }
+    $firstName = $row["users_first_name"];
+    $lastName = $row["users_last_name"];
+    $row["nickName"] = mb_substr($firstName, 0, 1) . mb_substr($lastName, 0, 1);
+
+    $payload = [
+        "iss" => "localhost",
+        "aud" => "tm",
+        "iat" => time(),
+        "data" => [
+            "email" => $email,
+            "data" => $row,
+            "user_key" => $row["users_password"],
+            "nickname" =>$row['nickName']
+        ],
+    ];
+    unset($row['users_password']);
+    $jwt = JWT::encode($payload, $key, "HS256");
+
+
+    $returnData["data"] = [$row, 'token'=>$jwt];
+    $returnData["count"] = $result->rowCount();
+    $returnData["success"] = true;
+    $returnData["message"] = "Access Granted";
+    $returnData["server_datetime"] = date("Y-m-d H:i:s");
+
+    $response->setData($returnData);
+    $response->send();
+    exit();
+}
 // check search param
 function checkKeyword($keyword)
 {

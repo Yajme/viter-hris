@@ -7,11 +7,12 @@ class Database
 
     public static function connectDb()
     {
+       
         // Localhost
-        $host = "localhost";
-        $dbname = "viter_hris_v1";
-        $username = "root";
-        $password = "";
+        $host = $_ENV['DB_HOST'];
+        $dbname = $_ENV['DB_NAME'];
+        $username = $_ENV['DB_USERNAME'];
+        $password = $_ENV['DB_PASSWORD'];
 
         if (self::$dbConnection === null) {
             self::$dbConnection = new PDO(

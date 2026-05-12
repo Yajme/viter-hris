@@ -6,18 +6,16 @@ import Users from "#pages/dev/settings/users/Users";
 import Memo from "#pages/dev/memo/Memo";
 import Department from "#pages/dev/settings/department/Department";
 import Notifications from "#pages/dev/settings/notifications/Notifications";
+import ProtectedRoute from "#pages/access/ProtectedRoute";
 const BASE_URL = `${devNavUrl}/${urlDeveloper}`;
 export const routesDeveloper = [
+
   {
     path: `${BASE_URL}/`,
-    element: <></>,
-  },
-  {
-    path: `${BASE_URL}/dashboard`,
     element: (
-      <>
+      <ProtectedRoute>
         <Dashboard />
-      </>
+      </ProtectedRoute>
     ),
   },
   {

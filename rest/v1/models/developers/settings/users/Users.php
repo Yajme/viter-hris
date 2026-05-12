@@ -1,5 +1,5 @@
 <?php
-// namespace V1\Models\Developers\Settings\userss;
+namespace App\Models\Dev\Settings\Users;
 
 class Users
 {
@@ -10,6 +10,7 @@ class Users
     public $users_email;
     public $users_password;
     public $users_role_id;
+    public $users_key;
     public $users_created;
     public $users_updated;
 
@@ -31,6 +32,25 @@ class Users
         $this->tblSettingsRoles = "settings_roles";
     }
 
+    public function readLogin(){
+        try{
+            $sql = "SELECT * FROM " . $this->tblSettingsUsers . " as users, " . $this->tblSettingsRoles . " as roles ";
+            $sql .= "WHERE users.users_role_id = roles.role_aid ";
+            $sql .= "AND users.users_is_active = 1 ";
+            $sql .= "AND users.users_email = :users_email";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "users_email" => $this->users_email,
+            ]);
+        }catch(PDOException $ex){
+            $query = [
+                "error" => true,
+                "error_info" => $ex->getMessage(),
+            ];
+        }
+
+        return $query;
+    }
     public function create()
     {
         try {
@@ -87,9 +107,7 @@ class Users
             "users_fullname_first_last" => "%{$this->search}%",
             "users_email" => "%{$this->search}%"
             ] : [];
-            $query->execute([
-            ...$params
-            ]);
+            $query->execute($params);
         } catch (PDOException $ex) {
             $query = [
                 "error" => true,
@@ -130,11 +148,9 @@ class Users
             "users_email" => "%{$this->search}%"
             ] : [];
 
-            $query->execute([
-            ...$params,
-            "start" => $this->start - 1,
-            "total" => $this->total
-            ]);
+            $params["start"] = (int) $this->start - 1;
+            $params["total"] = (int) $this->total;
+            $query->execute($params);
         } catch (PDOException $ex) {
             $query = [
                 "error" => true,
@@ -231,5 +247,9 @@ class Users
         }
 
         return $query;
+    }
+
+    public function resetPassword() {
+        
     }
 }

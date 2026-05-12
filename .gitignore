@@ -25,3 +25,10 @@ dist-ssr
 .zed/*
 vendor/*
 .php-cs-fixer.cache
+rest/.env
+apiKey.php
+rest/v1/core/env.php
+
+rest/vendor/*
+.php-cs-fixer.cache
+.php-cs-fixer.cache

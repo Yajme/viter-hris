@@ -1,5 +1,7 @@
 <?php
-
+require_once __DIR__ . '/../../../../core/bootstrap.php';
+//models
+use App\Models\Dev\Settings\Users\Users;
 // check database connection
 $conn = null;
 $conn = checkDbConnection($conn);
@@ -15,3 +17,5 @@ if (array_key_exists("id", $_GET)) {
 }
 
 checkEndpoint();
+
+ 

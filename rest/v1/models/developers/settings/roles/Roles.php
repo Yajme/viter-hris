@@ -7,6 +7,7 @@ class Roles
     public $role_is_active;
     public $role_name;
     public $role_description;
+    public $role_code;
     public $role_created;
     public $role_updated;
 
@@ -25,14 +26,15 @@ class Roles
     {
         try {
             $sql = "INSERT INTO {$this->tblSettingsRoles} ";
-            $sql .= "(role_is_active, role_name, role_description)";
-            $sql .= " VALUES (?,?,?);";
+            $sql .= "(role_is_active, role_name, role_description, role_code)";
+            $sql .= " VALUES (?,?,?,?);";
 
             $query = $this->connection->prepare($sql);
             $query->execute([
                 $this->role_is_active ?? 1,
                 $this->role_name,
                 $this->role_description,
+                $this->role_code,
             ]);
             $this->lastInsertedId = $this->connection->lastInsertId();
         } catch (PDOException $ex) {
