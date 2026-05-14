@@ -10,12 +10,12 @@ export const setTimezone = "Asia/Manila";
 // ROLES
 export const urlDeveloper = "developer";
 export const urlAdmin = "admin";
-export const currentUserRole = () => { 
+export const useCurrentUserRole = () => { 
     const { store, dispatch } = React.useContext(StoreContext);
     const credentials = store.credentials;
     console.log(credentials);
     if (credentials) {
-        return credentials.data.data.role_name;
+        return credentials.data.role_name.toLowerCase();
     }
     return null;
 }

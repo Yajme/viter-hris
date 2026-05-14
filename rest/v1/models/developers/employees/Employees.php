@@ -26,12 +26,14 @@ class Employees extends BaseModel
 
     public $tblEmployees;
     public $tblSettingsDepartment;
+    public $tblSettingsRoles;
 
     public function __construct($db)
     {
         $this->connection = $db;
         $this->tblEmployees = "employees";
         $this->tblSettingsDepartment = "settings_department";
+        $this->tblSettingsRoles = "settings_roles";
     }
 
     public function create()
@@ -70,9 +72,11 @@ class Employees extends BaseModel
                 $sql = "select ";
                 $sql .= " * ";
                 $sql .= " from {$this->tblEmployees} as employees, ";
-                $sql .= " {$this->tblSettingsDepartment} as department";
+                $sql .= " {$this->tblSettingsDepartment} as department,";
+                $sql .= " {$this->tblSettingsRoles} as roles";
                 $sql .= " WHERE department.department_aid = employees.employee_department_id";
-                $sql .= $this->employee_is_active
+                $sql .= " AND roles.role_aid = employees.employee_role_id ";
+                $sql .= $this->employee_is_active != ""
                     ? " AND employees.employee_is_active = :employee_is_active "
                     : " ";
                 $sql .= $this->search != "" ? " AND ( " : " ";
@@ -82,15 +86,15 @@ class Employees extends BaseModel
                 $sql .= $this->search != "" ? " or employees.employee_email like :employee_email " : " ";
                 $sql .= $this->search != "" ? " ) " : " ";
                 $query = $this->connection->prepare($sql);
-                $query->execute([
-                    ...$this->employee_is_active ? ["employee_is_active" => $this->employee_is_active] : [],
-                    ...$this->search ? [
-                        "employee_first_name" => "%{$this->search}%",
-                        "employee_middle_name" => "%{$this->search}%",
-                        "employee_last_name" => "%{$this->search}%",
-                        "employee_email" => "%{$this->search}%",
-                        ] : [],
-                ]);
+                $params = [];
+                $params += $this->employee_is_active != "" ? ["employee_is_active" => $this->employee_is_active] : [];
+                $params += $this->search ? [
+                    "employee_first_name" => "%{$this->search}%",
+                    "employee_middle_name" => "%{$this->search}%",
+                    "employee_last_name" => "%{$this->search}%",
+                    "employee_email" => "%{$this->search}%",
+                ] : [];
+                $query->execute($params);
             }catch(PDOException $e){
                 $query = false;
             }
@@ -102,8 +106,10 @@ class Employees extends BaseModel
             $sql = "select ";
             $sql .= " * ";
             $sql .= " from {$this->tblEmployees} as employees, ";
-            $sql .= " {$this->tblSettingsDepartment} as department";
-            $sql .= " WHERE department.department_aid = employees.employee_department_id";
+            $sql .= " {$this->tblSettingsDepartment} as department," ;
+            $sql .= " {$this->tblSettingsRoles} as roles ";
+            $sql .= " WHERE department.department_aid = employees.employee_department_id ";
+            $sql .= " AND roles.role_aid = employees.employee_role_id ";
             $sql .= $this->employee_is_active != "" ? " AND employees.employee_is_active = :employee_is_active" : "";
             if ($this->search !== "") {
                 $sql .= " AND (
@@ -117,7 +123,6 @@ class Employees extends BaseModel
             $query = $this->connection->prepare($sql);
             $params = [];
             $params += $this->employee_is_active != "" ? ["employee_is_active" => $this->employee_is_active] : [];
-            $params += ["start"=>$this->start - 1, "total"=> $this->total];
             if ($this->search !== "") {
                 $params += [
                     "employee_first_name" => "%{$this->search}%",
@@ -127,7 +132,12 @@ class Employees extends BaseModel
                 ];
             }
 
-            $query->execute($params);
+            foreach ($params as $key => $value) {
+                $query->bindValue(":{$key}", $value);
+            }
+            $query->bindValue(":start", (int) $this->start - 1, \PDO::PARAM_INT);
+            $query->bindValue(":total", (int) $this->total, \PDO::PARAM_INT);
+            $query->execute();
 
         } catch (PDOException $ex) {
             $query = [

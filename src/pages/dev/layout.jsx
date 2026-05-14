@@ -2,10 +2,11 @@ import ModalSuccess from "#partials/modals/ModalSuccess";
 import { useContext } from "react";
 import Header from "../../partials/Header.jsx";
 import Navigation from "../../partials/Navigation.jsx";
-import { navList } from "./nav-functions.jsx";
+import { getNavList } from "./nav-functions.jsx";
 import { StoreContext } from "#store/StoreContext";
 const layout = ({ children, menu, submenu }) => {
   const { store, dispatch } = useContext(StoreContext);
+  const navList = getNavList();
   return (
     <>
       {/* Header */}
