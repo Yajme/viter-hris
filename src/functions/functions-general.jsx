@@ -13,7 +13,7 @@ export const urlAdmin = "admin";
 export const useCurrentUserRole = () => { 
     const { store, dispatch } = React.useContext(StoreContext);
     const credentials = store.credentials;
-    console.log(credentials);
+
     if (credentials) {
         return credentials.data.role_name.toLowerCase();
     }

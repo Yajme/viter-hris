@@ -119,7 +119,7 @@ const DepartmentList = ({ setItemEdit, itemEdit }) => {
                     onSearch={onSearch}
                 />
             </div>
-            <div className="relative pt-4 rounded-md">
+            <div className="relative pt-4 rounded-md overflow-scroll">
                 {status !== "pending" && isFetching && <FetchingSpinner />}
                 <table>
                     <thead>

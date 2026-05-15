@@ -6,6 +6,7 @@ import { StoreContext } from "../store/StoreContext";
 import {
   setIsAccountUpdated,
   setIsLogout,
+  setIsShow,
   setMessage,
   setSuccess,
 } from "../store/StoreAction";
@@ -24,12 +25,14 @@ const Header = () => {
   const link = `${devNavUrl}/${urlDeveloper}`;
   let menuRef = React.useRef();
 
-  // const roleIsDeveloper = store.credentials.data.role_code == "r_is_developer";
+  const roleIsDeveloper = store.credentials.data.role_code == "r_is_developer";
   const firstName = store.credentials.data.users_first_name;
   const lastName = store.credentials.data.users_last_name;
   const email = store.credentials.data.users_email;
   const nickName = store.credentials.data.nickname;
-  const handleShowNavigation = () => {};
+  const handleShowNavigation = () => {
+    dispatch(setIsShow(!store.isShow));
+  };
 
   const handleLogout = () => {
     dispatch(setIsAccountUpdated(true));
@@ -41,22 +44,24 @@ const Header = () => {
     <>
       {store.isAccountUpdated && <ScreenSpinner />}
 
-      <div className="print:hidden fixed z-[52] bg-white w-full flex justify-between items-center h-16 border-solid border-b-2 border-primary px-2">
+      <header className="print:hidden fixed z-[52] bg-white w-full flex justify-between items-center h-16 border-solid border-b-2 border-primary px-2">
         <div className="flex items-center lg:w-full lg:justify-normal relative z-10">
-          <div className="group-hover:opacity-20 flex items-center lg:justify-start lg:min-h-[44px] lg:min-w-[170px] max-h-[44px] max-w-[170px] m-0.5">
+          <div
+            className={` group-hover:opacity-20 flex items-center lg:justify-start lg:min-h-[44px] lg:min-w-[170px] max-h-[44px] max-w-[170px] `}
+          >
             <button
               onClick={handleShowNavigation}
-              className={`py-4 pl-1 pr-4 text-gray-600 bg-white z-50 flex items-center rounded-br-sm focus:outline-0 cursor-pointer duration-200 ease-in`}
-              //   title={store.isNavFullShow ? "Expand" : "Collapse"}
+              className={`py-3 pl-1 px-3 text-gray-500 bg-white transform z-50 flex items-center rounded-br-sm focus:outline-0 cursor-pointer duration-200 ease-in`}
+              title={store.isShow ? "Collapse" : "Expand"}
             >
               <FaIndent
-              // className={`text-sm hover:text-secondary ${
-              //   !store.isNavFullShow && "rotate-180"
-              // }`}
+                className={`text-sm hover:text-secondary ${
+                  store.isShow && "rotate-180"
+                }`}
               />
             </button>
             <div className="pl-1">
-              <img src="asd" alt="" />
+              <img src="" alt="" />
             </div>
           </div>
         </div>
@@ -90,7 +95,9 @@ const Header = () => {
                   {firstName} {lastName}
                 </li>
 
-                <li className="mb-0 pb-2 capitalize text-xs">{store.credentials.data.role_name}</li>
+                <li className="mb-0 pb-2 capitalize text-xs">
+                  {store.credentials.data.role_name}
+                </li>
                 <li className="pb-2 flex items-center gap-2 text-xs">
                   <MdOutlineMailOutline />
                   {email}
@@ -106,7 +113,7 @@ const Header = () => {
             </div>
           </div>
         </div>
-      </div>
+      </header>
     </>
   );
 };

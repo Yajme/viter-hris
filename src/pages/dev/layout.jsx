@@ -4,8 +4,8 @@ import Header from "../../partials/Header.jsx";
 import Navigation from "../../partials/Navigation.jsx";
 import { getNavList } from "./nav-functions.jsx";
 import { StoreContext } from "#store/StoreContext";
-const layout = ({ children, menu, submenu }) => {
-  const { store, dispatch } = useContext(StoreContext);
+const Layout = ({ children, menu, submenu }) => {
+  const { store } = useContext(StoreContext);
   const navList = getNavList();
   return (
     <>
@@ -14,7 +14,7 @@ const layout = ({ children, menu, submenu }) => {
       {/* Navigation */}
       <Navigation navigationList={navList} menu={menu} submenu={submenu} />
       {/* Body */}
-      <div className="wrapper">{children}</div>
+      <div className={`wrapper ${store.isShow ? "ml-56" : ""}`}>{children}</div>
       {/* Footer */}
 
       {store.success && <ModalSuccess />}
@@ -22,4 +22,4 @@ const layout = ({ children, menu, submenu }) => {
   );
 };
 
-export default layout;
+export default Layout;

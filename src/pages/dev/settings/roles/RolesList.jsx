@@ -47,7 +47,7 @@ const RolesList = ({ setItemEdit, itemEdit }) => {
   };
   return (
     <>
-      <div className="relative pt-6 rounded-md">
+      <div className="relative pt-6 rounded-md  overflow-scroll">
         {isFetching && !isLoading && <FetchingSpinner />}
         <table>
           <thead>
